@@ -1,0 +1,11 @@
+
+
+$ gcc -c nome_do_ficheiro.c -o nome_do_ficheiro.o
+
+--------------------------------------------------
+
+$ ar -cr libnome_do_ficheiro.a nome_do_ficheiro.o
+
+--------------------------------------------------
+
+$ gcc programa.c ./biblioteca/funcoes.o -I./biblioteca -o programa

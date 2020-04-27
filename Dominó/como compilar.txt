@@ -1,0 +1,8 @@
+/*
+    Autor: BaziotaBeans
+    Descricao: Uma breve descricao sobre como compilar
+*/
+
+rm exec
+make
+./exec

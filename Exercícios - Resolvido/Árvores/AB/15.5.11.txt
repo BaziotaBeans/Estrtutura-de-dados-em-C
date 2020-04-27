@@ -1,0 +1,19 @@
+
+
+//Dada uma árvore binária, contar o número de descendentes não folhas
+//Autor: Ornela F. B.
+
+int numeroDescendentesNaoFolhas (TAtomo *raiz)
+{
+	if (raiz == NULL) return 0;
+	if (raiz->fesq == NULL && raiz->fdir == NULL) return 0;
+	int cont = 0;
+	if (raiz->fesq != NULL)
+		if (raiz->fesq->fesq != NULL || raiz->fesq->fdir != NULL) cont += 1;
+	if (raiz->fdir != NULL)
+		if (raiz->fdir->fesq != NULL || raiz->fdir->fdir != NULL) cont += 1;
+	return cont + numeroDescendentesNaoFolhas (raiz->fesq) + numeroDescendentesNaoFolhas (raiz->fdir); 
+}
+
+
+

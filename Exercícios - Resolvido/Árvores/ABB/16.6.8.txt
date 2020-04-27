@@ -1,0 +1,22 @@
+
+//Dada uma árvore de busca binária, imprimir o conteudo dos seus átomos em ordem crescente
+//Autor: Ornela F.B.
+
+
+void imprimeOrdemCrescente (TAtomo *raiz)
+{
+	if (raiz != NULL)
+	{
+		imprimeOrdemCrescente (raiz->fesq);
+		imprimeConteudo (raiz->info);
+		imprimeOrdemCrescente (raiz->fdir);
+	}
+}
+
+
+void imprimeConteudo (TInfo info)
+{
+	printf ("\nChave: %d",info.chave);
+	printf ("\nValor: %d",info.valor);
+}
+

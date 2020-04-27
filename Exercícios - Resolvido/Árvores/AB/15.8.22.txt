@@ -1,0 +1,15 @@
+
+//Dada uma árvore bináia e uma chave devolver o átomo que contém a chave ou NULL se não encontrou
+//Autor: Ornela F. B.
+
+TAtomo* buscaChave (TAtomo *raiz, int chave)
+{
+	if (raiz == NULL)
+		return NULL;
+	if (raiz->info.chave == chave)
+		return raiz;
+	return buscaChave (raiz->fesq, chave) + buscaChave (raiz->fdir, chave);
+}
+
+
+

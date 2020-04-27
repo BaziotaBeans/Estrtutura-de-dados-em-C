@@ -1,0 +1,2 @@
+all:
+<TAB>gcc programa.c ./biblioteca/funcoes.o -I./biblioteca -o programa

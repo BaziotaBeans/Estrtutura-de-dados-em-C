@@ -1,0 +1,413 @@
+EXERCÍCIOS DE ALGORITMOS E COMPLEXIDADE - 2015	
+/*----------------------------------------------------------------------------------------------------------
+	AUTOR: Ornela Boaventura
+	CONTRIBUIÇÕES: Benvindo Amaro e José Ambrósio
+	ELABORAÇÃO: José Ambrósio
+//----------------------------------------------------------------------------------------------------------*/
+	Feito em especial para os alunos da Universidade Católica de Angola, Faculdade de Engenharia, Curso de 
+	Informática.	
+
+// LISTA LIGADA
+// Inserir átomo em ordem crescente - ITERATIVO
+int insereOrdenado(TListaLigada *lista, TInfo x)
+{
+	if( vazia( lista ) ) return inserirLista( lista, x );
+	TAtomo* pnovo = malloc( sizeof( TAtomo* ) );
+	if( pnovo == NULL ) return NO_MEMORY
+	pnovo->info = x;
+	pnovo->prox = NULL;
+	TAtomo* paux = lista->primeiro;
+	TAtomo* pant = NULL;
+	while( paux->prox != NULL )
+	{
+		if( paux->info.chave > x.chave )
+		{
+			if( x.valor < paux->prox.info.chave )
+			{
+				pnovo->prox = paux->prox;
+				paux->prox = pnovo;
+			}
+		}
+		else
+		{
+			pnovo->prox = paux;
+			if( pant == NULL )
+				lista->primeiro = pnovo;
+			else
+				pant->prox = pnovo;		
+		}
+		pant = paux;
+		paux = paux->prox; 
+	}
+	if( x->chave < paux->info.chave )
+	{
+		pnovo->prox = paux;
+		if( pant == NULL )
+			lista->primeiro = pnovo;
+		else
+			pant->prox = pnovo;		
+	}
+	else
+	{
+		paux->prox = pnovo;
+		lista->ultimo = pnovo;
+	}	
+	return OK;
+}
+//----------------------------------------------------------------------------------------------------------
+// Remover átomo antes de um endereço - ITERATIVO
+int removerAntesEndereco( TLista *lista, TAtomo *endereco )
+{
+	if( vazia( lista ) ) return LIST_EMPTY;
+	TAtomo *pbusca = lista->primeiro;
+	TAtomo *pant = NULL;
+	while( pbusca->prox != endereco && pbusca->prox != NULL )
+	{	
+		pant = pbusca;
+		pbusca = pbusca->prox;
+	}	
+	if( pbusca->prox == NULL ) return NOT_FOUND;
+	TAtomo* pdel = pbusca;
+	if( pant == NULL )
+	   lista->primeiro = pbusca->prox;
+	else
+	   pant->prox = pbusca->prox;
+	free( pdel );
+	return OK;
+}
+//----------------------------------------------------------------------------------------------------------
+// Remover todos átomos antes da chave - ITERATIVO
+int removerAtomosAntesChave( TListaLigada *lista, int chave )
+{
+	if( vazia( lista ) ) return LIST_EMPTY;
+
+	TAtomo* pbusca = lista->primeiro;
+	TAtomo* pdel = NULL;
+	TAtomo* pant = NULL;
+
+	while( pbusca->prox != NULL )
+	{
+		if( pbusca->prox->info.chave == chave )
+		{
+			pdel = pbusca;
+			if (pant == NULL)
+				lista->primeiro = pdel->prox;
+			else
+				pant->prox = pdel->prox;
+			free (pdel); 
+		}
+		else
+			pant = pbusca;
+		pbusca = pbusca->prox;
+	}	
+	return OK;	
+}
+//----------------------------------------------------------------------------------------------------------
+
+// LISTA LIGADA CIRCULAR
+// Remover átomo antes de uma chave - ITERATIVO
+int removerAntes( int x, TListaCirc *lista )
+{
+	if( vaziaLista( lista ) ) return LIST_EMPTY;
+	TAtomo *pdel = NULL, *pbusca = lista->primeiro, *pant = NULL;
+	while( pbusca->info->chave != x && pbusca->prox != lista->primeiro )
+	{
+		pant = pdel;
+		pdel = pbusca;
+		pbusca = pbusca->prox;
+	}
+	if( pbusca->info->chave != x )
+		return NOT_FOUND;
+	if( pbusca == lista->primeiro )
+	{
+		pdel = pbusca;
+		while( pdel->prox != lista->primeiro )
+		{
+			pant = pdel;
+			pdel = pdel->prox;
+		}
+		if( pant == NULL )
+		{
+			free( pdel );
+			inicilizar( lista );
+			return OK;
+		}
+		pant->prox = lista->primeiro;
+	}
+	if( pdel == lista->primeiro )
+	{
+		lista->primeiro = pbusca;
+		while( pbusca->prox!= pdel )
+			pbusca = pbusca->prox;
+	}
+	else
+		pant->prox = pbusca; /* pant->prox = lista->primeiro;*/
+	free( pdel );
+	return OK;
+}
+//----------------------------------------------------------------------------------------------------------
+
+//LISTA LIGADA CIRCULAR COM CABEÇA
+// Remover átomo a esquerda do ponteiro de inicio da lista - ITERATIVO
+int removerEsquerdaInicio( TListaCircCabeca *lista )
+{
+	if( vazi( lista ) ) return LIST_EMPTY;
+	TAtomo *pant;
+	TAtomo *pdel = lista->cabeca->prox;
+	while( pdel->prox != lista->cabeca)
+	{
+		pant = pel;
+		pdel = pdel->prox;
+	}
+	pant->prox = lista->cabeca;
+	free( pdel );
+	if( lista->cabeca->proz == lista->cabeca )
+		inicializarLista( lista );
+	return OK;
+}
+//----------------------------------------------------------------------------------------------------------
+
+//FILA DINÂMICA
+// Inverter fila usando pilha - ITERATIVO
+int inverterFila( TFilaDinamica *fila )
+{
+	if( vazia( fila ) ) return QUEUE_EMPTY;
+	TInfo x;
+	TPilhaDinamica pilha;
+	inicializarPilha( pilha );
+	while( !vaziaFila( fila ) )
+	{
+		remover( fila, &x );
+		empilhar( &pilha, x );
+	}
+	while( !vaziaPilha( pilha ) )
+	{
+		desimpilhar( &pilha, &x );
+		inserir( fila, x );
+	}
+}
+//----------------------------------------------------------------------------------------------------------
+
+// ÁRVORE BINÁRIA 
+// Nível de atómo que contenha determinada chave - RECURSIVO
+int nivelAtomo( int x, TAtomo *raiz, int nivel )
+{
+	if( raiz == NULL ) return 0;
+	if( raiz->info.chave == x ) return nivel;
+	return nivelAtomo( x, raiz->fesq, nivel + 1 ) + nivelAtomo( x, raiz->fdir, nivel + 1 )
+}
+//----------------------------------------------------------------------------------------------------------
+// Percorrer TopDown árvore completa - RECURSIVO
+int visitaTopDown( TAB arvore, int nivel, int altura )
+{
+	if( nivel <= altura )
+	{
+		visitaNivel( arvore->raiz, nivel );
+		visitaTopDown( arvore, nivel + 1, altura );
+	}
+}
+//----------------------------------------------------------------------------------------------------------
+// Dadas 2 AB verificar se são opostas - RECURSIVO
+boolean arvoresOpostas( TAtomo* raiz1, TAtomo* raiz2 )
+{
+	if( raiz1 == NULL && raiz2 == NULL ) return TRUE;
+	if( raiz1 == NULL || raiz2 == NULL ) return FALSE;
+	if( raiz1->info.chave != raiz2->info.chave ) return FALSE;
+	return arvoresOpostas( raiz1->fesq, raiz2->fdir ) && arvoresOpostas( raiz1->fdir, raiz2->fesq );
+}
+//----------------------------------------------------------------------------------------------------------
+// Somar arvores - RECURSIVO
+boolean somaArvores(TAtomo *r1, TAtomo *r2, TAtomo *r3)
+{
+	if( r1 == NULL && r2 == NULL ) return true;
+	TAtomo* pnovo = malloc( sizeof( TAtomo* ) );
+	if( pnovo == NULL ) return false;
+	if( r1 != NULL && r2 != NULL )
+	{
+		pnovo->info.chave = r1->info.chave + r2->info.chave;
+		pnovo->fesq = pnovo->fdir = NULL;
+		r3 = pnovo;
+		return somaArvores( r1->fesq, r2->fesq, r3->fesq ) && somaArvores( r1->fdir, r2->fdir, r3->fdir );
+	}
+	else if( r1 == NULL )
+	{
+		pnovo->info.chave = r2->info.chave + 0;
+		pnovo->fesq = pnovo->fdir = NULL;
+		r3 = pnovo;
+		return somaArvores( r2->fesq, NULL, r3->fesq ) && somaArvores( r2->fdir, NULL, r3->fdir );
+	}
+	else
+	{
+		pnovo->info.chave = r1->info.chave + 0;
+		pnovo->fesq = pnovo->fdir = NULL;
+		r3 = pnovo;
+		return somaArvores( r1->fesq, NULL, r3->fesq ) && somaArvores( r1->fdir, NULL, r3->fdir );
+	}	
+}
+//----------------------------------------------------------------------------------------------------------
+// Contar num descendentes folha - RECURSIVO
+int contaFolhas( TAtomo *raiz )
+{
+	if( raiz == NULL ) return 0;
+	if( raiz->fesq == NULL && raiz->fdir == NULL ) return 1;
+	return contaFolhas( raiz->fesq ) + contaFolhas( raiz->fdir );
+}
+//----------------------------------------------------------------------------------------------------------
+// Contar num descendentes não folha - RECURSIVO
+int numeroDescendentesNaoFolhas(TAtomo *raiz)
+{
+	if(raiz == NULL) return 0;
+	if(raiz->fesq == NULL && raiz->fdir == NULL) return 0;
+	int cont = 0;
+	if(raiz->fesq != NULL)
+		if(raiz->fesq->fesq != NULL || raiz->fesq->fdir != NULL) cont += 1;
+	if(raiz->fdir != NULL)
+		if(raiz->fdir->fesq != NULL || raiz->fdir->fdir != NULL) cont += 1;
+	return cont + numeroDescendentesNaoFolhas(raiz->fesq) + numeroDescendentesNaoFolhas(raiz->fdir); 
+}
+//----------------------------------------------------------------------------------------------------------
+// Devolver atómo que contenha chave - RECURSIVO
+TAtomo* buscaChave(TAtomo *raiz, int chave)
+{
+	if(raiz == NULL)
+		return NULL;
+	if(raiz->info.chave == chave)
+		return raiz;
+	return buscaChave(raiz->fesq, chave) + buscaChave(raiz->fdir, chave);
+}
+//----------------------------------------------------------------------------------------------------------
+
+// ÁRVORE DE BUSCA BINÁRIA(ABB)
+// Verificar se é ABB - RECURSIVO
+boolean verificarABB( TAtomo *raiz )
+{
+	if( raiz == NULL ) return TRUE;
+	if( raiz->fesq == NULL &&  raiz->fdir == NULL ) return TRUE;
+	if( raiz->fesq != NULL )
+		if( raiz->fesq->info.chave > raiz->fdir->info.chave ) return FALSE;
+	if( raiz->fdir != NULL )
+		if( raiz->fesq->info.chave < raiz->fdir->info.chave ) return FALSE;
+	return verificarABB( raiz->fesq ) && verificarABB( raiz->fdir );
+}
+
+// Encontrei no Back do ORNELA
+boolean verificarABB( TAtomo* raiz )
+{
+	if( raiz == NULL ) return TRUE;
+	if( raiz->fesq == NULL && raiz-fdir == NULL ) return TRUE;
+	if( raiz->fdir != NULL )
+		if(raiz->info.chave > raiz->fdir->info.chave ) return FALSE;
+	if( raiz->fesq != NULL )
+		if( raiz->info.chave < raiz->fesq->info.chave ) return FALSE;
+	return verificarABB( raiz->fdir ) && verificarABB( raiz->fesq );
+}
+//----------------------------------------------------------------------------------------------------------
+// Buscar filho de um ABB - RECURSIVO
+int *buscarFilhoABB( TAtomo *raiz, int chavePai, int chaveFilho )
+{
+	if( raiz == NULL ) return NULL;
+	if( raiz->info.chave == chavePai )
+	{
+		if( raiz->fesq->info.chaveFilho == chaveFilho ) return raiz->fesq;
+		if( raiz->fdir->info.chaveFilho == chaveFilho ) return raiz->fdir;
+		return NULL;
+	}
+	if( raiz->info.chave > chavePai ) return buscaFilhoABB( raiz->fesq, chavePai, chaveFilho );
+	if( raiz->info.chave < chavePai ) return buscaFilhoABB( raiz->fdir, chavePai, chaveFilho );
+}
+//----------------------------------------------------------------------------------------------------------
+// Remover filho se for folha de uma ABB - RECURSIVO
+int *removerFilhoABB( TArvore *arvore, int chavepai, int chavefilho, TInfo *x )
+{
+	if( vaziaABB() ) return TREE_EMPTY;
+	TAtomo *pbusca = buscarFilhoABBRec( arvore->raiz, chavepai,chavefilho );
+	if( pbusca == NULL ) return KEY_NOT_FOUND;
+	if( pbusca->fesq != NULL || pbusca->fdir != NULL ) return NOT_LEAF;
+	TAtomo *pai = buscaABB( arvore, chave );
+	if( pai->fesq == pbusca )
+		pai->fesq = NULL;
+	else 
+		pai->fdir = NULL;
+	*x = pbusca->info;
+	free(pbusca);
+	return OK;
+}
+//----------------------------------------------------------------------------------------------------------
+// Imprimir conteudo dos átomos em ordem crescente - RECURSIVO
+void imprimeOrdemCrescente(TAtomo *raiz)
+{
+	if(raiz != NULL)
+	{
+		imprimeOrdemCrescente(raiz->fesq);
+		imprimeConteudo(raiz->info);
+		imprimeOrdemCrescente(raiz->fdir);
+	}
+}
+
+void imprimeConteudo(TInfo info)
+{
+	printf("\nChave: %d",info.chave);
+	printf("\nValor: %d",info.valor);
+}
+//----------------------------------------------------------------------------------------------------------
+// Devolver átomo que contenha chave - RECURSIVO
+void procura( TAtomo* raiz, TAtomo* pbusca, int chave )
+{
+	if( raiz != NULL )
+	{
+		if( raiz->info.chave == chave )
+			pbusca = raiz;
+		else if( raiz->info.chave < chave )
+			procura( raiz->fdir, pbusca, chave );
+		else if( raiz->info.chave > chave )
+			procura( raiz->fesq, pbusca, chave );
+	}
+}
+//----------------------------------------------------------------------------------------------------------
+// Construa os percursos(ABB)
+//Dados os conjuntos:- {32,8,4,16,6,64,48,7,128}
+//       		     - {16,7,8,64,6,48,128,4,32}
+
+			32
+		    /\
+		 8      64
+		 /\     /\
+	    4 16  48 128
+	       \
+	        6
+			 \
+			  7
+			
+				16
+		      /    \
+		     7      64
+		    /\      / \
+		   6  8   48  128
+		  /       /
+		 4	     32
+//----------------------------------------------------------------------------------------------------------
+
+//OUTROS
+// Fórmula de Ackermann - RECURSIVO
+int calcFormulaAckermann(int m,int n)
+{
+	if(m == 0) return n+1;
+	if(m>0 && n==0) return  calcFormulaAckermann(m-1,1);
+	if(m>0 && n>0) return calcFormulaAckermann( m-1, calcFormulaAckermann(m,n-1));
+	return 0;
+}
+//----------------------------------------------------------------------------------------------------------
+// Multiplicação de 2 números por adição - RECURSIVO
+int multiplicaDoisNumeros(int a,int b)
+{
+	if(b == 1) return a;
+	if(b > 1) return a + multiplicaDoisNumeros(a, b-1);
+	return 0;
+}
+//----------------------------------------------------------------------------------------------------------
+// Série harmônica - RECURSIVO
+float SerieHarmonicaRecursiva(float n)
+{
+	if(n==1)return 1;
+	return(1/n + SerieHarmonicaRecursiva( n-1));
+}

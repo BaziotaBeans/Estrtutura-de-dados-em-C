@@ -1,0 +1,12 @@
+
+//Dada uma árvore contar o número de folhas
+//Autor: ornela F. B.
+
+int contaFolhas (TAtomo *raiz)
+{
+	if (raiz == NULL)
+		return 0;
+	if (raiz->fesq == NULL && raiz->fdir == NULL)
+		return 1;
+	return contaFolhas (raiz->fesq) + contaFolhas (raiz->fdir);
+}

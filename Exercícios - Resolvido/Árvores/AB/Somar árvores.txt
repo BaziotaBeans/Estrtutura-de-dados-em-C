@@ -1,0 +1,42 @@
+
+
+//Autor: 
+
+1ª Questão
+
+boolean somaArvores (TAtomo *r1, TAtomo *r2, TAtomo *r3)
+{
+
+	if (r1 == NULL && r2 == NULL) return true;
+
+	TAtomo* pnovo = malloc (sizeof(TAtomo*));
+	if (pnovo == NULL) return false;
+
+	if (r1 != NULL && r2 != NULL)
+	{
+	   pnovo->info.chave = r1->info.chave + r2->info.chave;
+	   pnovo->fesq = pnovo->fdir = NULL;
+
+	   r3 = pnovo;
+	   return somaArvores (r1->fesq, r2->fesq, r3->fesq) && somaArvores (r1->fdir, r2->fdir, r3->fdir);
+	}
+	else if (r1 == NULL)
+	{
+	   pnovo->info.chave = r2->info.chave + 0;
+	   pnovo->fesq = pnovo->fdir = NULL;
+
+	   r3 = pnovo;
+	   return somaArvores (r2->fesq, NULL, r3->fesq) && somaArvores (r2->fdir, NULL, r3->fdir);
+	}
+	else
+	{
+	   pnovo->info.chave = r1->info.chave + 0;
+	   pnovo->fesq = pnovo->fdir = NULL;
+
+	   r3 = pnovo;
+	   return somaArvores (r1->fesq, NULL, r3->fesq) && somaArvores (r1->fdir, NULL, r3->fdir);
+	   
+	}
+
+	
+}

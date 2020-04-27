@@ -1,0 +1,17 @@
+
+//Dada uma árvore, verificar se ela é ou não de busca binária
+//Autor: Ornela F.B.
+
+
+boolean eABB (TAtomo* raiz)
+{
+	if (raiz == NULL) return true;
+	if (raiz->fesq == NULL && raiz-fdir == NULL) return true;
+	if (raiz->fdir != NULL)
+		if (raiz->info.chave > raiz->fdir->info.chave) return false;
+	if (raiz->fesq != NULL)
+		if (raiz->info.chave < raiz->fesq->info.chave) return false;
+	return eABB (raiz-fdir) && eABB (raiz-fesq);
+}
+
+

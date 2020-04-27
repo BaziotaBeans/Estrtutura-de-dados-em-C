@@ -1,0 +1,16 @@
+/*
+    Autor: BaziotaBeans
+    Objectivo: Como compilar um arquivo makefile via Terminal
+*/
+
+Passo - 1:  Abra o terminal fazendo a combinação de teclado Ctrl + Alt + T ou simplesmente clique na secção "Pesquisar no seu computador" e pesquise
+            por terminal.
+            
+Passo - 2:  Após isso entre no diretório corrente do arquivo e escreva o seguinte comando no terminal: 
+            rm exec
+            make
+            ./exec
+
+para mais informações consulte o manual do makefile.
+
+Espero ter ajudado abraços...

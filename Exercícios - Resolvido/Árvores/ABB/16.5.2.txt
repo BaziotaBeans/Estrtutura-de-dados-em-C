@@ -1,0 +1,22 @@
+
+
+//Dada uma árvore de busca binária e uma chave, desenvolver um procedimento 
+  recursivo para devolver o átomo que contém essa chave 
+
+//Autor: Ornela F. B.
+
+void procura(TAtomo* raiz, TAtomo* pbusca, int chave)
+{
+	if(raiz != NULL)
+	{
+		if (raiz->info.chave == chave)
+			pbusca = raiz;
+		else if (raiz->info.chave < chave)
+			procura (raiz->fdir, pbusca, chave);
+		else if (raiz->info.chave > chave)
+			procura (raiz->fesq, pbusca, chave);
+	}
+}
+
+
+
