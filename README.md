@@ -1,4 +1,4 @@
-# Estrtutura- de dados em C 🔥
+# Estrtutura de dados em C 🔥
 ```
 Uma coletânea de exemplos, exercícios resolvidos e projectos
 de Estrutura de dados usando a Linguagem mãe 🔥 C
